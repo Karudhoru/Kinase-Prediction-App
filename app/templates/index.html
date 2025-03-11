@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kinase Prediction</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+    /* Body & Background Setup */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      color: #333;
+      background-image: url('static/protein-icon.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    /* Header */
+    .header {
+      background-color: #007bff;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Container for the Form and Results */
+    .main-content {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    /* Semi-Transparent Card */
+    .form-card {
+      width: 100%;
+      max-width: 600px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      padding: 2rem;
+    }
+
+    .form-card h2 {
+      color: #007bff;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .form-card p {
+      color: #6c757d;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-control {
+      border-radius: 30px;
+      padding: 1rem 1.5rem;
+      border: 2px solid #007bff;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .form-control:focus {
+      border-color: #00d4ff;
+      box-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+      outline: none;
+    }
+
+    .btn-primary {
+      border-radius: 30px;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(45deg, #007bff, #00d4ff);
+      border: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(45deg, #0056b3, #0096c7);
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Prediction Card */
+    .prediction-card {
+      margin-top: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 0.5s ease-out;
+    }
+    .prediction-header {
+      font-size: 1.25rem;
+      font-weight: bold;
+      padding: 1rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      {% if prediction == 'Kinase' %}
+        background-color: rgba(40, 167, 69, 0.3); /* Increased opacity for more pop */
+        color: #155724;
+      {% else %}
+        background-color: rgba(220, 53, 69, 0.3); /* Increased opacity for more pop */
+        color: #721c24;
+      {% endif %}
+    }
+    .prediction-header i {
+      margin-left: 0.5rem;
+    }
+    .prediction-body {
+      padding: 1rem 1.5rem;
+      {% if prediction == 'Kinase' %}
+        background-color: rgba(40, 167, 69, 0.2); /* Increased opacity */
+      {% else %}
+        background-color: rgba(220, 53, 69, 0.2); /* Increased opacity */
+      {% endif %}
+      border-radius: 0 0 15px 15px;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Error Alert */
+    .alert {
+      margin-top: 2rem;
+      border-radius: 15px;
+      border: none;
+      text-align: center;
+    }
+    .alert-danger {
+      background: rgba(255, 182, 193, 0.9);
+      color: #721c24;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="main-content">
+    <div class="form-card">
+      <h2>Kinase Prediction</h2>
+      <p>Analyze your protein sequence to determine if it has kinase properties.</p>
+      <form method="POST">
+        <div class="mb-4">
+          <input
+            type="text"
+            name="sequence"
+            class="form-control"
+            placeholder="e.g., MAVKL..."
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Predict</button>
+      </form>
+
+      {% if prediction %}
+      <div class="prediction-card">
+        <div class="prediction-header">
+          Prediction: {{ prediction }}
+          {% if prediction == 'Kinase' %}
+            <i class="bi bi-check-circle-fill" style="color: #28a745;"></i>
+          {% else %}
+            <i class="bi bi-x-circle-fill" style="color: #dc3545;"></i>
+          {% endif %}
+        </div>
+        <div class="prediction-body">
+          <p>
+            <strong>Input Sequence:</strong>
+            {{ request.form.get('sequence')|truncate(50, True, '...') }}
+          </p>
+          <p>
+            <strong>Probability of being a kinase:</strong>
+            {{ probability }}
+          </p>
+          <p>{{ message }}</p>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if error %}
+      <div class="alert alert-danger">
+        {{ error }}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>
