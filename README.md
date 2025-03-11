@@ -35,7 +35,7 @@ A web application to predict whether a protein sequence is a kinase or not using
 
 ## Setup and Installation
 
-Follow the instructions in the **docs/INSTALL.md** file to install the required dependencies and set up the project environment.
+Follow the instructions in the **docs/INSTALL.pdf** file to install the required dependencies and set up the project environment.
 
 ## Usage
 
