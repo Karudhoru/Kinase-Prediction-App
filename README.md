@@ -13,13 +13,13 @@ A web application to predict whether a protein sequence is a kinase or not using
 ├── bin
 │   └── model.ipynb
 ├── data
-│   ├── Protein_Data.tsv
-│   └── all_kmers.pkl
+│   └── Protein_Data.tsv
 ├── docs
 │   ├── INSTALL.pdf
 │   ├── MODEL_INFO.pdf
 │   └── USAGE.pdf
 ├── model
+│   ├── all_kmers.pkl
 │   └── kinase_model.pkl
 ├── requirements.txt
 └── static
