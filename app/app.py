@@ -8,8 +8,8 @@ app = Flask(__name__)
 
 # Load the trained model and the list of all 3-mers
 
-model = joblib.load('kinase_model.pkl')
-all_kmers = joblib.load('all_kmers.pkl')
+model = joblib.load("D:/GIT/Kinase Predictor/model/kinase_model.pkl")
+all_kmers = joblib.load('D:/GIT/Kinase Predictor/data/all_kmers.pkl')
 
 # Function to compute 3-mer frequencies
 def compute_kmer_frequencies(sequence, k=3):
