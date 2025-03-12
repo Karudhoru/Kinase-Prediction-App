@@ -15,7 +15,8 @@
       padding: 0;
       font-family: 'Arial', sans-serif;
       color: #333;
-      background-image: url('static/protein-icon.jpg');
+      /* Use a relative path for the background image */
+      background-image: url("protein-icon.jpg");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -103,10 +104,10 @@
       align-items: center;
       justify-content: center;
       {% if prediction == 'Kinase' %}
-        background-color: rgba(40, 167, 69, 0.3); /* Increased opacity for more pop */
+        background-color: rgba(40, 167, 69, 0.3);
         color: #155724;
       {% else %}
-        background-color: rgba(220, 53, 69, 0.3); /* Increased opacity for more pop */
+        background-color: rgba(220, 53, 69, 0.3);
         color: #721c24;
       {% endif %}
     }
@@ -116,9 +117,9 @@
     .prediction-body {
       padding: 1rem 1.5rem;
       {% if prediction == 'Kinase' %}
-        background-color: rgba(40, 167, 69, 0.2); /* Increased opacity */
+        background-color: rgba(40, 167, 69, 0.2);
       {% else %}
-        background-color: rgba(220, 53, 69, 0.2); /* Increased opacity */
+        background-color: rgba(220, 53, 69, 0.2);
       {% endif %}
       border-radius: 0 0 15px 15px;
     }
